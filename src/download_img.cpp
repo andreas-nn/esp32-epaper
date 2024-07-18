@@ -126,10 +126,9 @@ int loadImage(GxEPD_Class *display) {
 void setup() {
   Serial.begin(115200);
 
-#if BOARD_XIAO_ESP32C3
+#if ARDUINO_XIAO_ESP32C3
   SPI.begin(3, -1, 2, 4);
-#elif BOARD_M5ATOM
-  // M5Atom
+#elif ARDUINO_M5Stack_ATOM
   SPI.begin(23, -1, 19, 5);
 #endif
 
@@ -162,10 +161,10 @@ void setup() {
   LOG.print("IP address: ");
   LOG.println(WiFi.localIP());
 
-#if BOARD_XIAO_ESP32C3
+#if ARDUINO_XIAO_ESP32C3
   GxIO_Class io(SPI, /*CS=*/4, /*DC=*/5, /*RST=*/6);
   GxEPD_Class *display = new GxEPD_Class(io, /*RST=*/6, /*BUSY=*/7);
-#elif BOARD_M5ATOM
+#elif ARDUINO_M5Stack_ATOM
   GxIO_Class io(SPI, /*CS=*/33, /*DC=*/21, /*RST=*/22);
   GxEPD_Class *display = new GxEPD_Class(io, /*RST=*/22, /*BUSY=*/25);
 #else
