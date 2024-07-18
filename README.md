@@ -2,7 +2,7 @@
 
 指定したHTTP/HTTPSのURLからGIF/モノクロBMPの画像を読み込んで Waveshare や Good Display 製の電子ペーパに表示します。
 
-サーバのHTTPレスポンスにx-expire-secヘッダを付けることで、次回の更新タイミングを指定できます。次回更新タイミングまでは deep sleep に入るので省電力です。
+サーバのHTTPレスポンスに refresh ヘッダを付けることで、次回の更新タイミングを指定できます。次回更新タイミングまでは deep sleep に入るので省電力です。
 
 ## Schematic
 

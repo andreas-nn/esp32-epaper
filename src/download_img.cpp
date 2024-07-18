@@ -8,6 +8,9 @@
 #include <WiFi.h>
 
 #include "config.h"
+#ifdef ENABLE_MATTER
+#include "matter_ble_server.h"
+#endif
 #define LOG Serial
 
 struct PixelWriter {
@@ -90,7 +93,7 @@ void loadGif(GxEPD_Class *display, WiFiClient *stream, int size) {
 int loadImage(GxEPD_Class *display) {
   HTTPClient *client = new HTTPClient();
   client->begin(IMG_URL);
-  const char *headerKeys[] = {"x-expire-sec"};
+  const char *headerKeys[] = {"refresh"};
   client->collectHeaders(headerKeys, 1);
   client->GET();
   long startTime = millis();
@@ -98,9 +101,9 @@ int loadImage(GxEPD_Class *display) {
   int size = client->getSize();
   LOG.print("Size: ");
   LOG.println(size);
-  LOG.print("Expire: ");
-  int expire = client->header("x-expire-sec").toInt();
-  LOG.println(expire);
+  LOG.print("Refresh: ");
+  int refresh = client->header("refresh").toInt();
+  LOG.println(refresh);
 
   if (stream->peek() == 'B') {
     loadBitmap(display, stream, size);
@@ -117,7 +120,7 @@ int loadImage(GxEPD_Class *display) {
   LOG.println("Updated");
 
   long elapsedTime = (int)((millis() - startTime) / 1000);
-  return expire == 0 ? 3600 : constrain(expire - elapsedTime + 10, 300, 86400);
+  return refresh == 0 ? 3600 : constrain(refresh - elapsedTime, 300, 86400 + 3600);
 }
 
 void setup() {
@@ -130,14 +133,30 @@ void setup() {
   SPI.begin(23, -1, 19, 5);
 #endif
 
+#ifdef ENABLE_MATTER
+  if (WiFi.begin() == WL_CONNECT_FAILED) {
+    LOG.println("Starting Matter PASE");
+    wait_for_commissioning_complete();
+  } else {
+    LOG.println("Already configured");
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      LOG.print(".");
+    }
+    LOG.println();
+  }
+#else
   // Wait for connection
-  WiFi.begin(SSID, PASSWORD);
+  if (WiFi.begin() == WL_CONNECT_FAILED) {
+    WiFi.begin(SSID, PASSWORD);
+  }
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     LOG.print(".");
   }
+  LOG.println();
+#endif
 
-  LOG.println("");
   LOG.print("Connected to ");
   LOG.println(SSID);
   LOG.print("IP address: ");
