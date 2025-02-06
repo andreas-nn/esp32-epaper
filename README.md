@@ -1,39 +1,39 @@
 # e-Paper image loader for ESP32
 
-指定したHTTP/HTTPSのURLからGIF/モノクロBMPの画像を読み込んで Waveshare や Good Display 製の電子ペーパに表示します。
+For programming of e-papers you can use a webserver at home to processing the image.
+I use at this point php.
+You can control the image by a browser.
 
-サーバのHTTPレスポンスに refresh ヘッダを付けることで、次回の更新タイミングを指定できます。次回更新タイミングまでは deep sleep に入るので省電力です。
+There is on the epaper-device an ESP32 for showing the image.
+Some header-information organize the administration information.
 
-## Schematic
+# Used header information
+from EPD to Webserver:
+"X-Battery"  : battery voltage in "V"
+"X-Dim-X"    : Width in pixel
+"X-DIM_Y"    : Height in pixel
+from Webserver to EPD:
+"X-Expire"  : seconds to predicted next contact
+"Size"      : Size of gif-file
 
-TODO: 回路図
+# ESP32
 
-回路図はまだありません。ESP32 と 電子ペーパの接続はコード中で使っているGPIOピンを見てください。
-
-## ESP32
-
-ESP32であれば動くと思いますが、以下のボードで動作確認済みです(ピン配置はプリプロセッサで切り替えてください)
-
-- SeedStudio XIAO ESP32C3
-- M5Stack ATOM
-- NodeMCU ESP-32S
+- ESP32
+- ESP32C3
+- ESP32S3
+w/o PSRAM
 
 ## e-Paper Module
 
-[GxEPD](https://github.com/ZinggJM/GxEPD) がサポートする電子ペーパ。
-
-以下のモジュール用に実装してるので、別の電子ペーパーを使う場合は、GxEPDのヘッダファイル等を調整してください。
-
-- GDEW075Z08 800x480 White/Black/Red
-- https://www.amazon.co.jp/dp/B08H8R6TQG
-
+All module served by GxEPD2
 
 ## Build with Platform.IO
 
-```bash
-cd esp32-epapeer
+modify src/project_xxx.h
+bash
+cd esp32-epaper
 pio run -t upload
-```
+
 
 # License
 
