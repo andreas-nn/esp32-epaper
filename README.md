@@ -22,7 +22,7 @@ from Webserver to EPD:<BR>
 - ESP32<BR>
 - ESP32C3<BR>
 - ESP32S3<BR>
-w/o PSRAM<BR>
+for epaper > 4.2 inch you need PSRAM. Please activate it on platformi.ini<BR>
 
 ## e-Paper Module
 
