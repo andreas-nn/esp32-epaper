@@ -1,5 +1,5 @@
-//project AZSMZ-board with 2.9 inch epd
-// esp8266 exchanged to esp32c3 12f !!!
+//project AZSMZ-board with 2.9 inch epd (2017)
+// esp8266 exchanged by esp32c3 12f !!!
 
 
 //WiFi-definition and website for image
