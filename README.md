@@ -38,7 +38,7 @@ I have four compilations on ESP32 and EPD display
 - Lilygo T7 V1.5 + EPD 7.5
 - AZSMZ epaper board + EPD 2.9 (from 2017 - processor changed from ESP8266 to ESP32C3-12F - old, but it works)
 
-For the Waveshare Universal e-Paper Raw Panel Driver HAT you must set the 9th pin "PWR" to high. At the config is the GPIO-definition EPD_PWR.
+For the Waveshare "Universal e-Paper Raw Panel Driver HAT" you must set the 9th pin "PWR" to high. At the config is the GPIO-definition EPD_PWR.
 
 If the board has a controlled LED, you can serve it by EPD_LED. Negative GPIO means here an inverted output.
 Unfortunately the LED at "Universal e-Paper Raw Panel Driver Board, ESP32" is constantly on. You can only cut it hard to save power.
@@ -61,8 +61,12 @@ Fill in the correct GPIO-numbers for the six EPD-lines.
 > cd esp32-epaper<BR>
 > pio run -t upload<BR>
 
+Used libraries:
+- https://github.com/ZinggJM/GxEPD2.git
+-	https://github.com/binzume/gif-decoder.git#main
+
 # License
 MIT License
 
 # Thanks
-A special thank you to binzume and ZingJM for the idea and the realization with GxEPD.
+A special thank to binzume for the idea and the realization with GxEPD. And to ZinggJM for the comprehensive library GxEPD2.
